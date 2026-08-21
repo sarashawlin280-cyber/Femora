@@ -1,23 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, BookOpen, ShieldCheck, Users, Calendar, Activity, Brain, Baby, Sparkles, ChevronRight, ArrowRight, AlertCircle, MessageSquare, Star, HeartPulse, Apple } from 'lucide-react'
-import { useAuth } from '../context/AuthContext'
 import { articles, faqs, emergencyInfo } from '../data/mockData'
 
 export default function Home() {
-  const { user } = useAuth()
   const [openFaq, setOpenFaq] = useState(null)
-
-  useEffect(() => {
-    const handleCycleClick = () => {
-      if (!user) {
-        window.location.href = '/login'
-      } else {
-        window.location.href = '/dashboard'
-      }
-    }
-    window.handleCycleTracker = handleCycleClick
-  }, [user])
 
   return (
     <div className="bg-white">
@@ -44,13 +31,13 @@ export default function Home() {
                   Explore Wellness Resources
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <button
-                  onClick={() => window.handleCycleTracker && window.handleCycleTracker()}
+                <Link
+                  to="/cycle-tracker"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
                   Track Your Cycle
                   <Calendar className="w-4 h-4" />
-                </button>
+                </Link>
                 <Link
                   to="/about"
                   className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blush-600 text-blush-600 rounded-xl font-medium hover:bg-blush-50 transition-all duration-200"
@@ -92,11 +79,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: HeartPulse, title: 'Menstrual Health', desc: 'Learn about periods, menstrual hygiene, symptoms, and reproductive health.', btn: 'Explore', link: '/articles' },
-              { icon: Baby, title: 'Pregnancy & Maternal Care', desc: 'Guidance and educational resources for pregnancy and motherhood.', btn: 'Learn More', link: '/articles' },
-              { icon: Brain, title: 'Mental Wellness', desc: 'Resources for emotional well-being, stress, and self-care.', btn: 'Explore', link: '/articles' },
-              { icon: Apple, title: 'Nutrition & Fitness', desc: 'Healthy eating, lifestyle, fitness, and wellness tips.', btn: 'View Tips', link: '/articles' },
-              { icon: Calendar, title: 'Cycle Tracker', desc: 'Track and manage your menstrual cycle information easily.', btn: 'Start Tracking', link: '/#cycle-tracker' },
+              { icon: HeartPulse, title: 'Menstrual Health', desc: 'Learn about periods, menstrual hygiene, symptoms, and reproductive health.', btn: 'Explore', link: '/menstrual-health' },
+              { icon: Baby, title: 'Pregnancy & Maternal Care', desc: 'Guidance and educational resources for pregnancy and motherhood.', btn: 'Learn More', link: '/maternal-care' },
+              { icon: Brain, title: 'Mental Wellness', desc: 'Resources for emotional well-being, stress, and self-care.', btn: 'Explore', link: '/mental-wellness' },
+              { icon: Apple, title: 'Nutrition & Fitness', desc: 'Healthy eating, lifestyle, fitness, and wellness tips.', btn: 'View Tips', link: '/nutrition-fitness' },
+              { icon: Calendar, title: 'Cycle Tracker', desc: 'Track and manage your menstrual cycle information easily.', btn: 'Start Tracking', link: '/cycle-tracker' },
               { icon: BookOpen, title: 'Health Articles', desc: 'Browse trusted and easy-to-understand health articles.', btn: 'Read Articles', link: '/articles' },
             ].map((item, i) => (
               <div key={i} className="bg-blush-50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
@@ -182,23 +169,13 @@ export default function Home() {
                 </div>
               </div>
 
-              {user ? (
-                <button
-                  onClick={() => window.handleCycleTracker && window.handleCycleTracker()}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  Track My Cycle
-                  <Calendar className="w-4 h-4" />
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-                >
-                  Login to Start Tracking
-                  <Calendar className="w-4 h-4" />
-                </Link>
-              )}
+              <Link
+                to="/cycle-tracker"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Open Cycle Tracker
+                <Calendar className="w-4 h-4" />
+              </Link>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-blush-100">
@@ -264,7 +241,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg font-semibold text-charcoal mb-2">{item.title}</h3>
                 <p className="text-sm text-charcoal-light mb-4">{item.desc}</p>
-                <Link to="/articles" className="inline-flex items-center gap-1 text-sm font-medium text-lavender-600 hover:text-lavender-700">
+                <Link to="/mental-wellness" className="inline-flex items-center gap-1 text-sm font-medium text-lavender-600 hover:text-lavender-700">
                   Explore Mental Wellness <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -304,7 +281,7 @@ export default function Home() {
 
           <div className="text-center mt-12">
             <Link
-              to="/articles"
+              to="/maternal-care"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               Explore Maternal Care

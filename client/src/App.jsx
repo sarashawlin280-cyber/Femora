@@ -15,6 +15,12 @@ import About from './pages/About'
 import Settings from './pages/Settings'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
+import MenstrualHealth from './pages/MenstrualHealth'
+import MaternalCare from './pages/MaternalCare'
+import MentalWellness from './pages/MentalWellness'
+import NutritionFitness from './pages/NutritionFitness'
+import CycleTracker from './pages/CycleTracker'
+import FAQ from './pages/FAQ'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -44,6 +50,12 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/menstrual-health" element={<MenstrualHealth />} />
+          <Route path="/maternal-care" element={<MaternalCare />} />
+          <Route path="/mental-wellness" element={<MentalWellness />} />
+          <Route path="/nutrition-fitness" element={<NutritionFitness />} />
+          <Route path="/cycle-tracker" element={<CycleTracker />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

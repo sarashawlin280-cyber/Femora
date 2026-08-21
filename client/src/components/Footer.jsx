@@ -25,12 +25,12 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link to="/" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Home</Link></li>
               <li><Link to="/about" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">About Us</Link></li>
-              <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Menstrual Health</Link></li>
-              <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Pregnancy & Maternal Care</Link></li>
-              <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Mental Wellness</Link></li>
-              <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Nutrition & Fitness</Link></li>
+              <li><Link to="/menstrual-health" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Menstrual Health</Link></li>
+              <li><Link to="/maternal-care" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Pregnancy & Maternal Care</Link></li>
+              <li><Link to="/mental-wellness" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Mental Wellness</Link></li>
+              <li><Link to="/nutrition-fitness" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Nutrition & Fitness</Link></li>
               <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Articles</Link></li>
-              <li><Link to="/#faq" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">FAQ</Link></li>
+              <li><Link to="/faq" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -42,7 +42,7 @@ export default function Footer() {
               <li><Link to="/login" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Login</Link></li>
               <li><Link to="/register" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Sign Up</Link></li>
               <li><Link to="/dashboard" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">My Profile</Link></li>
-              <li><Link to="/dashboard" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Cycle Tracker</Link></li>
+              <li><Link to="/cycle-tracker" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Cycle Tracker</Link></li>
               <li><Link to="/settings" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Settings</Link></li>
             </ul>
           </div>

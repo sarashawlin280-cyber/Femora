@@ -14,13 +14,13 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Menstrual Health', path: '/articles' },
-    { name: 'Pregnancy & Maternal Care', path: '/articles' },
-    { name: 'Mental Wellness', path: '/articles' },
-    { name: 'Nutrition & Fitness', path: '/articles' },
-    { name: 'Cycle Tracker', path: '/#cycle-tracker' },
+    { name: 'Menstrual Health', path: '/menstrual-health' },
+    { name: 'Pregnancy & Maternal Care', path: '/maternal-care' },
+    { name: 'Mental Wellness', path: '/mental-wellness' },
+    { name: 'Nutrition & Fitness', path: '/nutrition-fitness' },
+    { name: 'Cycle Tracker', path: '/cycle-tracker' },
     { name: 'Articles', path: '/articles' },
-    { name: 'FAQ', path: '/#faq' },
+    { name: 'FAQ', path: '/faq' },
   ]
 
   return (
