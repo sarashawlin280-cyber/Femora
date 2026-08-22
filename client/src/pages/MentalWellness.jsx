@@ -38,11 +38,6 @@ export default function MentalWellness() {
           ))}
         </div>
 
-        <div className="text-center">
-          <Link to="/articles" className="inline-flex items-center gap-2 px-6 py-3 bg-lavender-600 text-white rounded-xl font-medium hover:bg-lavender-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-            Explore Mental Wellness <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
       </div>
     </div>
   )

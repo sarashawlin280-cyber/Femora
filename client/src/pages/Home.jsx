@@ -71,8 +71,6 @@ export default function Home() {
             <Link to="/nutrition-fitness" className="text-blush-600 hover:text-blush-700 font-medium">Nutrition & Fitness</Link>
             <span className="text-blush-300">|</span>
             <Link to="/cycle-tracker" className="text-blush-600 hover:text-blush-700 font-medium">Cycle Tracker</Link>
-            <span className="text-blush-300">|</span>
-            <Link to="/articles" className="text-blush-600 hover:text-blush-700 font-medium">Articles</Link>
           </div>
         </div>
       </section>
