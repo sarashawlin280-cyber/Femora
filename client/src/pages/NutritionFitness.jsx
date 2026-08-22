@@ -1,14 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Apple, ArrowRight, Salad, Flame, Heart, Sparkles, Dumbbell } from 'lucide-react'
-
-const FOODS = [
-  { name: 'Greek Yogurt', cal: 100, protein: 17, carbs: 6, fat: 0.7, benefit: 'Rich in probiotics for gut health and calcium for strong bones.' },
-  { name: 'Quinoa', cal: 222, protein: 8, carbs: 39, fat: 3.5, benefit: 'Complete protein with all essential amino acids for muscle repair.' },
-  { name: 'Spinach', cal: 23, protein: 2.9, carbs: 3.6, fat: 0.4, benefit: 'High in iron and vitamins A, C, K for healthy blood and skin.' },
-  { name: 'Banana', cal: 105, protein: 1.3, carbs: 27, fat: 0.4, benefit: 'Quick energy source with potassium for muscle function.' },
-  { name: 'Almonds', cal: 164, protein: 6, carbs: 6, fat: 14, benefit: 'Healthy fats and vitamin E for heart and skin health.' },
-  { name: 'Oats', cal: 150, protein: 5, carbs: 27, fat: 2.5, benefit: 'Fiber-rich for digestion and sustained energy throughout the day.' },
-]
+import { Apple, ArrowRight, Dumbbell, Salad, Sparkles } from 'lucide-react'
 
 const DIET_PLAN = [
   { meal: 'Breakfast', time: '7:00 AM', items: 'Oatmeal with berries, Greek yogurt, and almonds' },
@@ -50,16 +41,41 @@ export default function NutritionFitness() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { title: 'Healthy Eating', desc: 'Nutritional guidance and diet tips for women\'s health and wellbeing.' },
-            { title: 'Fitness Routines', desc: 'Workout plans tailored for women\'s strength, flexibility, and overall health.' },
-            { title: 'Lifestyle Tips', desc: 'Simple lifestyle changes for better sleep, energy, and overall wellness.' },
-            { title: 'Self-Care', desc: 'Incorporate self-care practices into your daily routine for better mental and physical health.' },
-            { title: 'Weight Management', desc: 'Healthy approaches to weight management that respect your body and health.' },
-            { title: 'Hydration & Wellness', desc: 'The importance of hydration and simple wellness habits for a healthier life.' },
+            {
+              title: 'Healthy Eating',
+              points: ['Balanced meals with fresh ingredients', 'Include fruits and vegetables daily', 'Choose whole grains over processed foods', 'Limit sugar and refined carbs']
+            },
+            {
+              title: 'Fitness Routines',
+              points: ['Combine cardio, strength, and flexibility', 'Aim for at least 30 minutes daily', 'Include warm-up and cool-down', 'Listen to your body and rest when needed']
+            },
+            {
+              title: 'Lifestyle Tips',
+              points: ['Maintain a consistent sleep schedule', 'Stay hydrated throughout the day', 'Practice mindfulness or meditation', 'Take breaks and manage screen time']
+            },
+            {
+              title: 'Self-Care',
+              points: ['Set aside time for yourself daily', 'Engage in hobbies you enjoy', 'Connect with loved ones', 'Practice gratitude and positive thinking']
+            },
+            {
+              title: 'Weight Management',
+              points: ['Focus on sustainable habits, not quick fixes', 'Eat mindfully and watch portion sizes', 'Combine diet with regular movement', 'Avoid extreme diets or restrictions']
+            },
+            {
+              title: 'Hydration & Wellness',
+              points: ['Drink at least 8 glasses of water daily', 'Start your day with a glass of water', 'Limit caffeine and sugary drinks', 'Monitor your water intake actively']
+            },
           ].map((item, i) => (
             <div key={i} className="bg-blush-50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300">
-              <h3 className="text-lg font-semibold text-charcoal mb-2">{item.title}</h3>
-              <p className="text-sm text-charcoal-light">{item.desc}</p>
+              <h3 className="text-lg font-semibold text-charcoal mb-4">{item.title}</h3>
+              <ul className="space-y-2">
+                {item.points.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-sm text-charcoal-light">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blush-500 flex-shrink-0" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
@@ -68,40 +84,7 @@ export default function NutritionFitness() {
           <div className="flex items-center gap-3 mb-8">
             <Salad className="w-8 h-8 text-blush-600" />
             <h2 className="text-3xl font-bold text-charcoal" style={{ fontFamily: 'Georgia, serif' }}>
-              Nutritious Foods Chart
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {FOODS.map((food, i) => (
-              <div key={i} className="bg-blush-50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-charcoal">{food.name}</h3>
-                  <div className="flex items-center gap-1 text-blush-600">
-                    <Flame className="w-4 h-4" />
-                    <span className="text-sm font-medium">{food.cal} kcal</span>
-                  </div>
-                </div>
-                <div className="flex gap-4 mb-4 text-xs text-charcoal-light">
-                  <span>Protein: <strong className="text-charcoal">{food.protein}g</strong></span>
-                  <span>Carbs: <strong className="text-charcoal">{food.carbs}g</strong></span>
-                  <span>Fat: <strong className="text-charcoal">{food.fat}g</strong></span>
-                </div>
-                <div className="bg-white p-3 rounded-xl">
-                  <div className="flex items-start gap-2">
-                    <Heart className="w-4 h-4 text-rose-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-sm text-charcoal-light leading-relaxed">{food.benefit}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <div className="flex items-center gap-3 mb-8">
-            <Sparkles className="w-8 h-8 text-blush-600" />
-            <h2 className="text-3xl font-bold text-charcoal" style={{ fontFamily: 'Georgia, serif' }}>
-              Suggested Daily Diet
+              Simple Diet Chart
             </h2>
           </div>
           <div className="bg-blush-50 rounded-2xl overflow-hidden">
