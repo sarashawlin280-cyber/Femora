@@ -3,14 +3,14 @@ import { Heart, ShieldCheck, Users, BookOpen, Sparkles } from 'lucide-react'
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-rose-50/40">
+    <div className="min-h-screen bg-blush-50/40">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
-          <span className="inline-flex items-center gap-2 px-4 py-2 bg-rose-100 text-rose-700 rounded-full text-sm font-medium mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-blush-100 text-blush-700 rounded-full text-sm font-medium mb-8">
             <Sparkles className="w-4 h-4" />
             Welcome to Femora
           </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-charcoal mb-6 bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent" style={{ fontFamily: 'Georgia, serif' }}>
+          <h1 className="text-4xl sm:text-5xl font-bold text-charcoal mb-6 bg-gradient-to-r from-blush-500 to-blush-600 bg-clip-text text-transparent" style={{ fontFamily: 'Georgia, serif' }}>
             About Femora
           </h1>
           <p className="text-lg text-charcoal-light max-w-3xl mx-auto leading-relaxed">
@@ -19,7 +19,7 @@ export default function About() {
         </div>
 
         <div className="mb-16">
-          <div className="bg-white rounded-2xl shadow-sm border border-rose-100/80 p-8 md:p-10">
+          <div className="bg-white rounded-2xl shadow-sm border border-blush-100/80 p-8 md:p-10">
             <h2 className="text-3xl font-bold text-charcoal mb-6" style={{ fontFamily: 'Georgia, serif' }}>
               Our Mission
             </h2>
@@ -39,29 +39,29 @@ export default function About() {
             What We Offer
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-xl border border-rose-100/60 p-6 hover:border-rose-200 hover:shadow-md transition-all">
-              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white rounded-xl border border-blush-100/60 p-6 hover:border-blush-200 hover:shadow-md transition-all">
+              <div className="w-12 h-12 bg-blush-100 text-blush-600 rounded-lg flex items-center justify-center mb-4">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-charcoal mb-2">Reliable Information</h3>
               <p className="text-sm text-charcoal-light">Evidence-based content reviewed by healthcare professionals.</p>
             </div>
-            <div className="bg-white rounded-xl border border-rose-100/60 p-6 hover:border-rose-200 hover:shadow-md transition-all">
-              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white rounded-xl border border-blush-100/60 p-6 hover:border-blush-200 hover:shadow-md transition-all">
+              <div className="w-12 h-12 bg-blush-100 text-blush-600 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-charcoal mb-2">Women-Centered Design</h3>
               <p className="text-sm text-charcoal-light">Resources designed specifically for women's unique health needs.</p>
             </div>
-            <div className="bg-white rounded-xl border border-rose-100/60 p-6 hover:border-rose-200 hover:shadow-md transition-all">
-              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white rounded-xl border border-blush-100/60 p-6 hover:border-blush-200 hover:shadow-md transition-all">
+              <div className="w-12 h-12 bg-blush-100 text-blush-600 rounded-lg flex items-center justify-center mb-4">
                 <BookOpen className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-charcoal mb-2">Easy to Understand</h3>
               <p className="text-sm text-charcoal-light">Clear, jargon-free explanations for every topic.</p>
             </div>
-            <div className="bg-white rounded-xl border border-rose-100/60 p-6 hover:border-rose-200 hover:shadow-md transition-all">
-              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white rounded-xl border border-blush-100/60 p-6 hover:border-blush-200 hover:shadow-md transition-all">
+              <div className="w-12 h-12 bg-blush-100 text-blush-600 rounded-lg flex items-center justify-center mb-4">
                 <Sparkles className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold text-charcoal mb-2">Always Accessible</h3>
@@ -70,23 +70,23 @@ export default function About() {
           </div>
         </div>
 
-        <div className="bg-slate-900 text-white rounded-2xl p-8 md:p-10 mb-12">
+        <div className="bg-charcoal text-white rounded-2xl p-8 md:p-10 mb-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-2xl md:text-3xl font-bold mb-1">100%</div>
-              <div className="text-sm text-slate-300">Verified Content</div>
+              <div className="text-sm text-white/80">Verified Content</div>
             </div>
             <div>
               <div className="text-2xl md:text-3xl font-bold mb-1">24/7</div>
-              <div className="text-sm text-slate-300">Access</div>
+              <div className="text-sm text-white/80">Access</div>
             </div>
             <div>
               <div className="text-2xl md:text-3xl font-bold mb-1">50+</div>
-              <div className="text-sm text-slate-300">Topics</div>
+              <div className="text-sm text-white/80">Topics</div>
             </div>
             <div>
               <div className="text-2xl md:text-3xl font-bold mb-1">10k+</div>
-              <div className="text-sm text-slate-300">Readers</div>
+              <div className="text-sm text-white/80">Readers</div>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default function About() {
         <div className="text-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-xl font-medium hover:from-rose-600 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blush-500 to-blush-600 text-white rounded-xl font-medium hover:from-blush-600 hover:to-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             Explore Femora
             <Heart className="w-5 h-5" />

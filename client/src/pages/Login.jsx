@@ -80,9 +80,6 @@ export default function Login() {
                   Remember Me
                 </label>
               </div>
-              <Link to="/forgot-password" className="text-sm text-blush-600 hover:text-blush-700">
-                Forgot Password?
-              </Link>
             </div>
 
             <button
