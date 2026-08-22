@@ -442,7 +442,7 @@ export default function MenstrualHealth() {
 
       <section className="py-20 bg-white" id="when-to-seek-help">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12">
+          <div className="bg-charcoal text-white rounded-3xl p-8 sm:p-12">
             <div className="flex items-start gap-4 mb-8">
               <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center flex-shrink-0">
                 <AlertCircle className="w-6 h-6 text-blush-300" />
@@ -451,7 +451,7 @@ export default function MenstrualHealth() {
                 <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                   When Should You Talk to a Doctor?
                 </h2>
-                <p className="text-slate-300 max-w-2xl">
+                <p className="text-white/80 max-w-2xl">
                   Most menstrual changes are normal, but some signs deserve professional attention. If you experience any of the following, consider scheduling an appointment with a gynecologist or healthcare provider.
                 </p>
               </div>
@@ -463,7 +463,7 @@ export default function MenstrualHealth() {
                   <span className="w-6 h-6 rounded-full bg-blush-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
                     {i + 1}
                   </span>
-                  <span className="text-slate-200 text-sm leading-relaxed">{item}</span>
+                  <span className="text-white/90 text-sm leading-relaxed">{item}</span>
                 </div>
               ))}
             </div>

@@ -1,10 +1,13 @@
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import { Heart, Calendar, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useAuth } from '../context/AuthContext'
+import { Calendar, ChevronLeft, ChevronRight, Droplets } from 'lucide-react'
 
-const DAYS_IN_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const DAYS_IN_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+function dateKey(date) {
+  const d = new Date(date)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 function addDays(date, days) {
   const result = new Date(date)
@@ -21,7 +24,7 @@ function getCycleDay(periodStart, targetDate) {
   return diff >= 0 ? diff + 1 : null
 }
 
-function getPeriodDays(periodStart) {
+function getPeriodDays(periodStart, cycleLength) {
   const days = []
   for (let i = 0; i < 5; i++) {
     days.push(addDays(periodStart, i))
@@ -29,38 +32,59 @@ function getPeriodDays(periodStart) {
   return days
 }
 
-function getFertileWindow(periodStart) {
-  const days = []
-  for (let i = 8; i <= 15; i++) {
-    days.push(addDays(periodStart, i))
+const STORAGE_KEY = 'femora_cycle_data'
+
+function loadStoredData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch {
+    return null
   }
-  return days
 }
 
-function getOvulationDay(periodStart) {
-  return addDays(periodStart, 13)
+function saveStoredData(data) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch {
+    // ignore
+  }
 }
 
 export default function CycleTracker() {
-  const { user } = useAuth()
-  const today = useMemo(() => new Date(), [])
-  const [periodStart, setPeriodStart] = useState(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 13))
-  const [cycleLength, setCycleLength] = useState(28)
+  const today = new Date()
+
+  const [periodStart, setPeriodStart] = useState(() => {
+    const stored = loadStoredData()
+    if (stored?.periodStart) return new Date(stored.periodStart + 'T00:00:00')
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate() - 13)
+  })
+  const [cycleLength, setCycleLength] = useState(() => {
+    const stored = loadStoredData()
+    return stored?.cycleLength || 28
+  })
   const [viewMonth, setViewMonth] = useState({ year: today.getFullYear(), month: today.getMonth() })
   const [saved, setSaved] = useState(false)
+  const [periodHistory, setPeriodHistory] = useState(() => {
+    const stored = loadStoredData()
+    return Array.isArray(stored?.history) ? stored.history : []
+  })
 
   const nextPeriod = useMemo(() => addDays(periodStart, cycleLength), [periodStart, cycleLength])
   const cycleDay = useMemo(() => getCycleDay(periodStart, today), [periodStart, today])
   const periodDays = useMemo(() => getPeriodDays(periodStart, cycleLength), [periodStart, cycleLength])
-  const fertileWindow = useMemo(() => getFertileWindow(periodStart, cycleLength), [periodStart, cycleLength])
-  const ovulationDay = useMemo(() => getOvulationDay(periodStart, cycleLength), [periodStart, cycleLength])
+  const daysToNextPeriod = useMemo(() => {
+    const diff = Math.ceil((nextPeriod - today) / (1000 * 60 * 60 * 24))
+    return diff >= 0 ? diff : null
+  }, [nextPeriod, today])
 
   const calendarDays = useMemo(() => {
     const firstDay = new Date(viewMonth.year, viewMonth.month, 1)
-    const startDayOfWeek = firstDay.getDay()
+    let startDayOfWeek = firstDay.getDay()
+    startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1
     const daysInMonth = new Date(viewMonth.year, viewMonth.month + 1, 0).getDate()
     const days = []
-
     for (let i = 0; i < startDayOfWeek; i++) {
       days.push(null)
     }
@@ -73,207 +97,287 @@ export default function CycleTracker() {
   const prevMonth = () => {
     setViewMonth(prev => ({
       year: prev.month === 0 ? prev.year - 1 : prev.year,
-      month: prev.month === 0 ? 11 : prev.month - 1
+      month: prev.month === 0 ? 11 : prev.month - 1,
     }))
   }
 
   const nextMonth = () => {
     setViewMonth(prev => ({
       year: prev.month === 11 ? prev.year + 1 : prev.year,
-      month: prev.month === 11 ? 0 : prev.month + 1
+      month: prev.month === 11 ? 0 : prev.month + 1,
     }))
-  }
-
-  const getDayClass = (date) => {
-    if (!date) return 'invisible'
-    if (periodDays.some(d => isSameDay(d, date))) return 'bg-blush-400 text-white'
-    if (isSameDay(date, ovulationDay)) return 'bg-lavender-400 text-white'
-    if (fertileWindow.some(d => isSameDay(d, date))) return 'bg-lavender-100 text-lavender-700'
-    if (isSameDay(date, nextPeriod)) return 'bg-blush-100 text-blush-700 ring-2 ring-blush-400'
-    if (isSameDay(date, today)) return 'ring-2 ring-charcoal text-charcoal'
-    return 'text-charcoal hover:bg-blush-50'
   }
 
   const handleSave = (e) => {
     e.preventDefault()
+    const stored = loadStoredData()
+    const history = Array.isArray(stored?.history) ? stored.history : []
+    const newEntry = dateKey(periodStart)
+    const updatedHistory = [newEntry, ...history.filter(d => d !== newEntry)].slice(0, 6)
+    saveStoredData({ periodStart: dateKey(periodStart), cycleLength, history: updatedHistory })
+    setPeriodHistory(updatedHistory)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
+  const progress = cycleDay && cycleLength ? Math.min(100, Math.max(0, ((cycleDay - 1) / cycleLength) * 100)) : 0
+  const radius = 120
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (progress / 100) * circumference
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-gradient-to-b from-blush-50 to-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blush-100 rounded-full mb-6">
-              <Calendar className="w-8 h-8 text-blush-600" />
+    <div className="min-h-screen bg-gradient-to-b from-blush-50/60 to-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl sm:text-4xl font-bold text-charcoal mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            🌸 Your Cycle
+          </h1>
+          <p className="text-charcoal-light text-lg">Track your period with ease and stay prepared.</p>
+        </div>
+
+        <div className="flex justify-center mb-10">
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 260 260">
+              <circle cx="130" cy="130" r={radius} stroke="#fce7eb" strokeWidth="12" fill="none" />
+              <circle
+                cx="130"
+                cy="130"
+                r={radius}
+                stroke="#d13d64"
+                strokeWidth="12"
+                fill="none"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                className="transition-all duration-1000 ease-out"
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+              <p className="text-xs font-medium text-charcoal-light uppercase tracking-wider mb-1">Day {cycleDay || '--'}</p>
+              <p className="text-4xl sm:text-5xl font-bold text-charcoal mb-1" style={{ fontFamily: 'Georgia, serif' }}>
+                {cycleDay || '--'}
+              </p>
+              <p className="text-sm text-charcoal-light">of your {cycleLength}-day cycle</p>
+              <p className="text-xs text-charcoal-light mt-3">Last period: {periodStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-bold text-charcoal mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-              Menstrual Cycle Tracker
-            </h1>
-            <p className="text-lg text-charcoal-light max-w-2xl mx-auto">
-              Track your menstrual cycle and stay more aware of your body's natural patterns. Predict your next period, identify fertile windows, and understand your body better.
-            </p>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {!user ? (
-          <div className="text-center bg-blush-50 p-12 rounded-2xl max-w-2xl mx-auto">
-            <Heart className="w-12 h-12 text-blush-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-charcoal mb-4">Login to Start Tracking</h2>
-            <p className="text-charcoal-light mb-8">
-              Create a free account to access the full cycle tracker and personalize your experience.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/login" className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-                Login <ArrowLeft className="w-4 h-4 rotate-180" />
-              </Link>
-              <Link to="/register" className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blush-600 text-blush-600 rounded-xl font-medium hover:bg-blush-50 transition-all duration-200">
-                Create Free Account
-              </Link>
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-blush-100 mb-6">
+          <p className="text-xs font-semibold text-blush-600 uppercase tracking-wider mb-2">🩸 Your Next Period</p>
+          <p className="text-3xl sm:text-4xl font-bold text-charcoal mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+            {nextPeriod.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
+          </p>
+          <p className="text-blush-600 font-medium mb-4">
+            {daysToNextPeriod !== null ? `${daysToNextPeriod} days away` : 'Calculating...'}
+          </p>
+          <div className="w-full bg-blush-100 rounded-full h-2 mb-2">
+            <div
+              className="bg-blush-500 h-2 rounded-full transition-all duration-700"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-xs text-charcoal-light">Based on your {cycleLength}-day cycle</p>
+        </div>
+
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-blush-100 mb-6">
+          <h2 className="text-sm font-semibold text-charcoal-light uppercase tracking-wider mb-6 text-center">Your Cycle</h2>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+            <div className="flex-1 text-center">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <span className="text-xl">🩸</span>
+                <span className="text-sm font-medium text-charcoal">Last Period</span>
+              </div>
+              <p className="text-xs text-charcoal-light">{periodStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+              <p className="text-xs font-semibold text-blush-600">Day 1</p>
+            </div>
+
+            <div className="hidden sm:block flex-1 h-px bg-blush-200 relative">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-blush-400" />
+              </div>
+            </div>
+            <div className="sm:hidden w-px h-6 bg-blush-200" />
+
+            <div className="flex-1 text-center">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <span className="text-xl">🌸</span>
+                <span className="text-sm font-medium text-charcoal">Today</span>
+              </div>
+              <p className="text-xs text-charcoal-light">{today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+              <p className="text-xs font-semibold text-blush-600">Day {cycleDay || '--'}</p>
+            </div>
+
+            <div className="hidden sm:block flex-1 h-px bg-blush-200 relative">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-blush-400" />
+              </div>
+            </div>
+            <div className="sm:hidden w-px h-6 bg-blush-200" />
+
+            <div className="flex-1 text-center">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <span className="text-xl">📅</span>
+                <span className="text-sm font-medium text-charcoal">Next Period</span>
+              </div>
+              <p className="text-xs text-charcoal-light">{nextPeriod.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+              <p className="text-xs font-semibold text-blush-600">Day {cycleLength}</p>
             </div>
           </div>
-        ) : (
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div>
-              <div className="bg-blush-50 p-8 rounded-2xl mb-8">
-                <h3 className="text-xl font-semibold text-charcoal mb-6">Current Cycle Overview</h3>
-                <div className="grid grid-cols-2 gap-6">
-                  <div>
-                    <p className="text-sm text-charcoal-light mb-1">Current Cycle Day</p>
-                    <p className="text-3xl font-bold text-blush-600">{cycleDay || '--'}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-charcoal-light mb-1">Period Start Date</p>
-                    <p className="text-3xl font-bold text-charcoal">
-                      {periodStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-charcoal-light mb-1">Estimated Next Period</p>
-                    <p className="text-3xl font-bold text-charcoal">
-                      {nextPeriod.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-charcoal-light mb-1">Cycle Length</p>
-                    <p className="text-3xl font-bold text-charcoal">{cycleLength} days</p>
-                  </div>
-                </div>
-              </div>
+        </div>
 
-              <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-blush-100">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base sm:text-lg font-semibold text-charcoal">Calendar</h3>
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <button onClick={prevMonth} className="p-1.5 sm:p-2 rounded-lg hover:bg-blush-50 transition-colors" aria-label="Previous month">
-                      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-charcoal" />
-                    </button>
-                    <span className="font-medium text-charcoal text-sm sm:text-base min-w-[100px] sm:min-w-[140px] text-center">
-                      {MONTH_NAMES[viewMonth.month]} {viewMonth.year}
-                    </span>
-                    <button onClick={nextMonth} className="p-1.5 sm:p-2 rounded-lg hover:bg-blush-50 transition-colors" aria-label="Next month">
-                      <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-charcoal" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-7 gap-1 sm:gap-2">
-                  {DAYS_IN_WEEK.map(day => (
-                    <div key={day} className="text-center text-xs font-medium text-charcoal-light py-2">
-                      {day}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-7 gap-1 sm:gap-2">
-                  {calendarDays.map((date, i) => {
-                    if (!date) {
-                      return <div key={`empty-${i}`} className="aspect-square" />
-                    }
-                    const cd = getCycleDay(periodStart, date)
-                    const isPeriod = periodDays.some(d => isSameDay(d, date))
-                    const isOvulation = isSameDay(date, ovulationDay)
-                    const isFertile = fertileWindow.some(d => isSameDay(d, date))
-                    const isNextPeriod = isSameDay(date, nextPeriod)
-
-                    return (
-                      <div
-                        key={i}
-                        className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs sm:text-sm font-medium cursor-pointer transition-all ${getDayClass(date)} hover:scale-105`}
-                        title={`${date.toDateString()}\n${cd ? `Cycle Day: ${cd}` : ''}${isPeriod ? '\nPeriod' : ''}${isOvulation ? '\nOvulation' : ''}${isFertile ? '\nFertile Window' : ''}${isNextPeriod ? '\nNext Period' : ''}`}
-                      >
-                        <span>{date.getDate()}</span>
-                        {cd && !isPeriod && !isOvulation && !isFertile && cd <= 5 && (
-                          <span className="text-[8px] leading-none mt-0.5 text-blush-500">P</span>
-                        )}
-                        {isOvulation && (
-                          <span className="text-[8px] leading-none mt-0.5 text-white">O</span>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-
-                <div className="flex flex-wrap gap-3 sm:gap-4 mt-4 justify-center text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blush-400 rounded" />
-                    <span>Period</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-lavender-200 rounded" />
-                    <span>Fertile Window</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-lavender-400 rounded" />
-                    <span>Ovulation</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blush-100 rounded ring-2 ring-blush-400" />
-                    <span>Next Period</span>
-                  </div>
-                </div>
-              </div>
+        <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border border-blush-100 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-charcoal" style={{ fontFamily: 'Georgia, serif' }}>
+              {MONTH_NAMES[viewMonth.month]} {viewMonth.year}
+            </h2>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button onClick={prevMonth} className="p-1.5 sm:p-2 rounded-lg hover:bg-blush-50 transition-colors" aria-label="Previous month">
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-charcoal" />
+              </button>
+              <button onClick={nextMonth} className="p-1.5 sm:p-2 rounded-lg hover:bg-blush-50 transition-colors" aria-label="Next month">
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-charcoal" />
+              </button>
             </div>
+          </div>
 
-            <div className="bg-blush-50 p-8 rounded-2xl">
-              <h3 className="text-xl font-semibold text-charcoal mb-4">Log Your Cycle</h3>
-              <p className="text-charcoal-light mb-6">
-                Keep track of your menstrual cycle by logging your period dates, symptoms, and mood. This helps you understand your patterns and predict future cycles.
-              </p>
-              <form onSubmit={handleSave} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-charcoal mb-1">Period Start Date</label>
-                  <input
-                    type="date"
-                    value={periodStart.toISOString().split('T')[0]}
-                    onChange={(e) => setPeriodStart(new Date(e.target.value + 'T00:00:00'))}
-                    className="w-full px-4 py-2 rounded-xl border border-blush-200 focus:outline-none focus:ring-2 focus:ring-blush-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-charcoal mb-1">Cycle Length (days)</label>
-                  <input
-                    type="number"
-                    value={cycleLength}
-                    onChange={(e) => setCycleLength(Number(e.target.value))}
-                    min={20}
-                    max={45}
-                    className="w-full px-4 py-2 rounded-xl border border-blush-200 focus:outline-none focus:ring-2 focus:ring-blush-500"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
+            {DAYS_IN_WEEK.map(day => (
+              <div key={day} className="text-center text-xs font-medium text-charcoal-light py-2">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
+            {calendarDays.map((date, i) => {
+              if (!date) return <div key={`empty-${i}`} className="aspect-square" />
+              const isPeriod = periodDays.some(d => isSameDay(d, date))
+              const isToday = isSameDay(date, today)
+
+              return (
+                <div
+                  key={i}
+                  className="aspect-square rounded-xl flex flex-col items-center justify-center text-xs sm:text-sm font-medium transition-all relative"
                 >
-                  {saved ? 'Saved Successfully!' : 'Save Cycle Data'}
-                </button>
-              </form>
+                  {isPeriod ? (
+                    <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blush-100 text-blush-700">
+                      <Droplets className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </span>
+                  ) : (
+                    <span className={`${isToday ? 'ring-2 ring-blush-400 rounded-full w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center bg-blush-50 text-blush-700' : 'text-charcoal hover:text-blush-600'}`}>
+                      {date.getDate()}
+                    </span>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="flex flex-wrap gap-3 sm:gap-4 mt-4 justify-center text-xs">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-blush-100 flex items-center justify-center">
+                <Droplets className="w-2.5 h-2.5 text-blush-600" />
+              </div>
+              <span className="text-charcoal-light">Period</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-blush-50 ring-2 ring-blush-400" />
+              <span className="text-charcoal-light">Today</span>
             </div>
           </div>
-        )}
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-charcoal-light uppercase tracking-wider mb-4 text-center">Cycle at a Glance</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blush-100 text-center">
+              <p className="text-xl sm:text-2xl mb-1">🩸</p>
+              <p className="text-xs text-charcoal-light mb-1">Last period</p>
+              <p className="text-sm font-semibold text-charcoal">{periodStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blush-100 text-center">
+              <p className="text-xl sm:text-2xl mb-1">🔄</p>
+              <p className="text-xs text-charcoal-light mb-1">Cycle length</p>
+              <p className="text-sm font-semibold text-charcoal">{cycleLength} days</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blush-100 text-center">
+              <p className="text-xl sm:text-2xl mb-1">📅</p>
+              <p className="text-xs text-charcoal-light mb-1">Next period</p>
+              <p className="text-sm font-semibold text-charcoal">{nextPeriod.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+            </div>
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-blush-100 text-center">
+              <p className="text-xl sm:text-2xl mb-1">⏳</p>
+              <p className="text-xs text-charcoal-light mb-1">Days remaining</p>
+              <p className="text-sm font-semibold text-charcoal">{daysToNextPeriod !== null ? daysToNextPeriod : '--'}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border border-blush-100 mb-6">
+          <h2 className="text-sm font-semibold text-charcoal-light uppercase tracking-wider mb-4 text-center">🩸 Period History</h2>
+          {periodHistory.length > 0 ? (
+            <div className="space-y-2 sm:space-y-3">
+              {periodHistory.map((dateStr, i) => {
+                const [year, month, day] = dateStr.split('-').map(Number)
+                const date = new Date(year, month - 1, day)
+                const isCurrent = isSameDay(date, periodStart)
+                return (
+                  <div
+                    key={dateStr}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 ${
+                      isCurrent ? 'bg-blush-50 border border-blush-200' : 'bg-blush-50/60'
+                    }`}
+                  >
+                    <span className="text-sm font-medium text-charcoal">
+                      {date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </span>
+                    <span className={`text-sm font-semibold ${isCurrent ? 'text-blush-700' : 'text-charcoal'}`}>
+                      {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-charcoal-light text-center py-4">No period history yet. Save your first period to see it here.</p>
+          )}
+        </div>
+
+        <div className="bg-blush-50 rounded-3xl p-6 sm:p-8 shadow-sm border border-blush-100">
+          <p className="text-sm font-medium text-blush-700 mb-1">🌷 Your next period is approaching</p>
+          <p className="text-sm text-charcoal-light">You're about {daysToNextPeriod !== null ? daysToNextPeriod : '--'} days away from your expected period.</p>
+        </div>
+
+        <div className="mt-8 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-blush-100">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+              <p className="text-sm font-medium text-charcoal-light mb-1">Your period started on</p>
+              <p className="text-2xl font-bold text-charcoal">
+                {periodStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+            <form onSubmit={handleSave} className="flex items-center gap-3">
+              <input
+                type="date"
+                value={periodStart.toISOString().split('T')[0]}
+                onChange={(e) => setPeriodStart(new Date(e.target.value + 'T00:00:00'))}
+                className="px-4 py-2 rounded-xl border border-blush-200 focus:outline-none focus:ring-2 focus:ring-blush-500 text-sm"
+              />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blush-600 text-white rounded-xl text-sm font-medium hover:bg-blush-700 transition-all duration-200 whitespace-nowrap"
+              >
+                <Calendar className="w-4 h-4" />
+                {saved ? 'Saved' : 'Save Period'}
+              </button>
+            </form>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-bold text-charcoal">Cycle Day {cycleDay || '--'}</span>
+            <span className="text-charcoal-light">of {cycleLength} days</span>
+          </div>
+        </div>
       </div>
     </div>
   )

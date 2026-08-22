@@ -104,7 +104,7 @@ export default function Settings() {
 
         <button
           onClick={logout}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-rose-600 text-white rounded-xl font-medium hover:bg-rose-700 transition-all duration-200"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200"
         >
           <LogOut className="w-4 h-4" />
           Logout

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Heart, Search, Menu, X, User, LogOut, Bell, Settings } from 'lucide-react'
+import { Heart, Menu, X, User, LogOut, Bell, Settings } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
@@ -46,14 +46,6 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-              to="/search"
-              className="p-2 text-charcoal-light hover:text-blush-600 transition-colors"
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5" />
-            </Link>
-
             {user ? (
               <div className="relative group">
                 <button className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-blush-50 transition-colors">
@@ -139,14 +131,6 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="pt-2 border-t border-blush-100 space-y-2">
-              <Link
-                to="/search"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 py-2 text-sm font-medium text-charcoal hover:text-blush-600"
-              >
-                <Search className="w-4 h-4" />
-                Search
-              </Link>
               {user ? (
                 <>
                   <Link
