@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Baby, ArrowRight, Stethoscope, Apple, Heart, ChevronRight } from 'lucide-react'
+import { Baby, ArrowRight, Stethoscope, Apple, Heart, ChevronRight, HeartPulse, Sparkles } from 'lucide-react'
 
 export default function MaternalCare() {
   return (
@@ -197,6 +197,66 @@ export default function MaternalCare() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            Explore Topics
+          </h2>
+          <p className="text-charcoal-light max-w-2xl mx-auto">
+            Find guidance and support for every stage of motherhood.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              icon: Baby,
+              title: 'Pregnancy',
+              desc: 'Week-by-week guidance, common changes, and important prenatal care information.',
+              color: 'text-blush-600',
+              bg: 'bg-blush-50',
+            },
+            {
+              icon: HeartPulse,
+              title: 'Maternal Care',
+              desc: 'Nutrition, physical activity, checkups, and healthy habits during pregnancy.',
+              color: 'text-rose-500',
+              bg: 'bg-rose-50',
+            },
+            {
+              icon: Heart,
+              title: 'New Mothers',
+              desc: 'Practical guidance for caring for yourself and your newborn.',
+              color: 'text-pink-500',
+              bg: 'bg-pink-50',
+            },
+            {
+              icon: Sparkles,
+              title: 'Postpartum',
+              desc: 'Recovery, emotional wellbeing, nutrition, and changes after childbirth.',
+              color: 'text-orange-500',
+              bg: 'bg-orange-50',
+            },
+          ].map((topic) => (
+            <div
+              key={topic.title}
+              className={`${topic.bg} rounded-3xl p-6 border border-blush-100 hover:shadow-lg transition-all duration-300 flex flex-col`}
+            >
+              <div className={`w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm`}>
+                <topic.icon className={`w-6 h-6 ${topic.color}`} />
+              </div>
+              <h3 className="text-xl font-bold text-charcoal mb-2">{topic.title}</h3>
+              <p className="text-charcoal-light text-sm leading-relaxed flex-1">{topic.desc}</p>
+              <div className="mt-4">
+                <span className="text-sm font-semibold text-blush-600 hover:text-blush-700 transition-colors">
+                  Learn more →
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
