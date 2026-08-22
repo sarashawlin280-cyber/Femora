@@ -26,12 +26,6 @@ export default function Home() {
                   Get Started
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link
-                  to="/about"
-                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blush-600 text-blush-600 rounded-xl font-medium hover:bg-blush-50 transition-all duration-200"
-                >
-                  Learn More
-                </Link>
               </div>
             </div>
             <div className="relative hidden lg:block">

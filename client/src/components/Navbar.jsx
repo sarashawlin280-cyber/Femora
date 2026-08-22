@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Heart, Menu, X, User, LogOut, Bell, Settings } from 'lucide-react'
+import { Heart, Menu, X, User, LogOut, Bell } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
@@ -57,21 +57,6 @@ export default function Navbar() {
                 </button>
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-blush-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <div className="py-2">
-                    <Link
-                      to="/settings"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-charcoal hover:bg-blush-50 hover:text-blush-600"
-                    >
-                      <Settings className="w-4 h-4" />
-                      Settings
-                    </Link>
-                    {user.role === 'admin' && (
-                      <Link
-                        to="/admin"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-charcoal hover:bg-blush-50 hover:text-blush-600"
-                      >
-                        Admin Panel
-                      </Link>
-                    )}
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-2 px-4 py-2 text-sm text-charcoal hover:bg-blush-50 hover:text-blush-600"
@@ -120,23 +105,6 @@ export default function Navbar() {
             <div className="pt-2 border-t border-blush-100 space-y-2">
               {user ? (
                 <>
-                  <Link
-                    to="/settings"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 py-2 text-sm font-medium text-charcoal hover:text-blush-600"
-                  >
-                    <Settings className="w-4 h-4" />
-                    Settings
-                  </Link>
-                  {user.role === 'admin' && (
-                    <Link
-                      to="/admin"
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2 text-sm font-medium text-charcoal hover:text-blush-600"
-                    >
-                      Admin Panel
-                    </Link>
-                  )}
                   <button
                     onClick={handleLogout}
                     className="flex items-center gap-2 py-2 text-sm font-medium text-charcoal hover:text-blush-600"

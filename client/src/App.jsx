@@ -4,10 +4,6 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Login from './pages/Login'
-import AdminDashboard from './pages/AdminDashboard'
-import About from './pages/About'
-import Settings from './pages/Settings'
-import Terms from './pages/Terms'
 import MenstrualHealth from './pages/MenstrualHealth'
 import MaternalCare from './pages/MaternalCare'
 import MentalWellness from './pages/MentalWellness'
@@ -32,10 +28,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/terms" element={<Terms />} />
           <Route path="/menstrual-health" element={<MenstrualHealth />} />
           <Route path="/maternal-care" element={<MaternalCare />} />
           <Route path="/mental-wellness" element={<MentalWellness />} />
