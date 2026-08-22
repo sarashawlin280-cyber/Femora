@@ -58,13 +58,6 @@ export default function Navbar() {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-blush-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <div className="py-2">
                     <Link
-                      to="/dashboard"
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-charcoal hover:bg-blush-50 hover:text-blush-600"
-                    >
-                      <User className="w-4 h-4" />
-                      Profile
-                    </Link>
-                    <Link
                       to="/settings"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-charcoal hover:bg-blush-50 hover:text-blush-600"
                     >
@@ -97,12 +90,6 @@ export default function Navbar() {
                 >
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blush-600 rounded-xl hover:bg-blush-700 transition-colors"
-                >
-                  Sign Up
-                </Link>
               </>
             )}
           </div>
@@ -133,14 +120,6 @@ export default function Navbar() {
             <div className="pt-2 border-t border-blush-100 space-y-2">
               {user ? (
                 <>
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 py-2 text-sm font-medium text-charcoal hover:text-blush-600"
-                  >
-                    <User className="w-4 h-4" />
-                    Profile
-                  </Link>
                   <Link
                     to="/settings"
                     onClick={() => setMobileOpen(false)}
@@ -174,13 +153,6 @@ export default function Navbar() {
                     className="block py-2 text-sm font-medium text-blush-600"
                   >
                     Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setMobileOpen(false)}
-                    className="block py-2 text-sm font-medium text-blush-600"
-                  >
-                    Sign Up
                   </Link>
                 </>
               )}

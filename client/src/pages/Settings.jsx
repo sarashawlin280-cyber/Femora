@@ -97,9 +97,6 @@ export default function Settings() {
           <p className="text-sm text-charcoal-light mb-4">
             Your data is protected and encrypted. We never share your personal information with third parties.
           </p>
-          <Link to="/privacy" className="text-sm text-blush-600 hover:text-blush-700 font-medium">
-            View Privacy Policy
-          </Link>
         </div>
 
         <button

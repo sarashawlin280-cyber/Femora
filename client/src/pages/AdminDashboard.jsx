@@ -6,7 +6,7 @@ export default function AdminDashboard() {
   const { user } = useAuth()
 
   if (!user || user.role !== 'admin') {
-    return <Navigate to="/dashboard" replace />
+    return <Navigate to="/" replace />
   }
 
   const stats = [
@@ -112,10 +112,6 @@ export default function AdminDashboard() {
                 <Settings className="w-5 h-5 text-blush-600" />
                 <span className="text-sm font-medium text-charcoal">Settings</span>
               </button>
-              <Link to="/emergency" className="flex items-center gap-3 px-4 py-3 bg-blush-50 rounded-xl hover:bg-blush-100 transition-colors">
-                <Activity className="w-5 h-5 text-blush-600" />
-                <span className="text-sm font-medium text-charcoal">Emergency Info</span>
-              </Link>
             </div>
           </div>
         </div>

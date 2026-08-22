@@ -39,8 +39,6 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li><Link to="/login" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Login</Link></li>
-              <li><Link to="/register" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Sign Up</Link></li>
-              <li><Link to="/dashboard" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">My Profile</Link></li>
               <li><Link to="/cycle-tracker" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Cycle Tracker</Link></li>
               <li><Link to="/settings" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Settings</Link></li>
             </ul>
@@ -51,10 +49,6 @@ export default function Footer() {
               Support
             </h3>
             <ul className="space-y-2">
-              <li><Link to="/emergency" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Emergency Information</Link></li>
-              <li><Link to="/feedback" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Feedback</Link></li>
-              <li><Link to="/feedback" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Contact Us</Link></li>
-              <li><Link to="/privacy" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Terms & Conditions</Link></li>
               <li><Link to="/terms" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Disclaimer</Link></li>
             </ul>

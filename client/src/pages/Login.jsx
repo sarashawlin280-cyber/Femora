@@ -89,15 +89,6 @@ export default function Login() {
               Sign In
             </button>
           </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-charcoal-light">
-              Don't have an account?{' '}
-              <Link to="/register" className="text-blush-600 font-medium hover:text-blush-700">
-                Sign Up
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>

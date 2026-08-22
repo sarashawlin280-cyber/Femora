@@ -14,13 +14,13 @@ export function AuthProvider({ children }) {
     const name = email.split('@')[0]
     setUser({ name, email, role })
     toast.success(`Welcome back, ${name}!`)
-    navigate('/dashboard')
+    navigate('/')
   }
 
   const register = (name, email) => {
     setUser({ name, email, role: 'user' })
     toast.success('Account created successfully!')
-    navigate('/dashboard')
+    navigate('/')
   }
 
   const logout = () => {
