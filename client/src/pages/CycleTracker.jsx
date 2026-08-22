@@ -66,6 +66,10 @@ export default function CycleTracker() {
   })
   const [viewMonth, setViewMonth] = useState({ year: today.getFullYear(), month: today.getMonth() })
   const [saved, setSaved] = useState(false)
+  const [periodHistory, setPeriodHistory] = useState(() => {
+    const stored = loadStoredData()
+    return Array.isArray(stored?.history) ? stored.history : []
+  })
 
   const nextPeriod = useMemo(() => addDays(periodStart, cycleLength), [periodStart, cycleLength])
   const cycleDay = useMemo(() => getCycleDay(periodStart, today), [periodStart, today])
@@ -106,7 +110,12 @@ export default function CycleTracker() {
 
   const handleSave = (e) => {
     e.preventDefault()
-    saveStoredData({ periodStart: dateKey(periodStart), cycleLength })
+    const stored = loadStoredData()
+    const history = Array.isArray(stored?.history) ? stored.history : []
+    const newEntry = dateKey(periodStart)
+    const updatedHistory = [newEntry, ...history.filter(d => d !== newEntry)].slice(0, 6)
+    saveStoredData({ periodStart: dateKey(periodStart), cycleLength, history: updatedHistory })
+    setPeriodHistory(updatedHistory)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
@@ -303,6 +312,36 @@ export default function CycleTracker() {
               <p className="text-sm font-semibold text-charcoal">{daysToNextPeriod !== null ? daysToNextPeriod : '--'}</p>
             </div>
           </div>
+        </div>
+
+        <div className="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border border-blush-100 mb-6">
+          <h2 className="text-sm font-semibold text-charcoal-light uppercase tracking-wider mb-4 text-center">🩸 Period History</h2>
+          {periodHistory.length > 0 ? (
+            <div className="space-y-2 sm:space-y-3">
+              {periodHistory.map((dateStr, i) => {
+                const [year, month, day] = dateStr.split('-').map(Number)
+                const date = new Date(year, month - 1, day)
+                const isCurrent = isSameDay(date, periodStart)
+                return (
+                  <div
+                    key={dateStr}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 ${
+                      isCurrent ? 'bg-blush-50 border border-blush-200' : 'bg-blush-50/60'
+                    }`}
+                  >
+                    <span className="text-sm font-medium text-charcoal">
+                      {date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                    </span>
+                    <span className={`text-sm font-semibold ${isCurrent ? 'text-blush-700' : 'text-charcoal'}`}>
+                      {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-charcoal-light text-center py-4">No period history yet. Save your first period to see it here.</p>
+          )}
         </div>
 
         <div className="bg-blush-50 rounded-3xl p-6 sm:p-8 shadow-sm border border-blush-100">
