@@ -74,20 +74,130 @@ export default function MaternalCare() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {[
-            { title: 'Pregnancy', desc: 'Guidance for a healthy and informed pregnancy journey, from conception to birth.' },
-            { title: 'Maternal Care', desc: 'Expert advice for expecting and new mothers on nutrition, exercise, and wellness.' },
-            { title: 'New Mothers', desc: 'Support and resources for first-time mothers navigating parenthood.' },
-            { title: 'Postpartum Awareness', desc: 'Understanding and managing postpartum changes, recovery, and mental health.' },
-          ].map((item, i) => (
-            <div key={i} className="bg-blush-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300">
-              <h3 className="text-xl font-semibold text-charcoal mb-3">{item.title}</h3>
-              <p className="text-charcoal-light">{item.desc}</p>
-            </div>
-          ))}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-charcoal mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            Your Pregnancy Journey
+          </h2>
+          <p className="text-charcoal-light max-w-2xl mx-auto">
+            Follow along as your body and baby grow through each trimester and beyond.
+          </p>
         </div>
 
+        <div className="relative">
+          <div className="hidden md:flex items-center justify-between mb-8 relative">
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-blush-200 -translate-y-1/2" />
+            {[
+              { id: 1, label: '1st Trimester', sub: 'Weeks 1-12' },
+              { id: 2, label: '2nd Trimester', sub: 'Weeks 13-27' },
+              { id: 3, label: '3rd Trimester', sub: 'Weeks 28-40' },
+              { id: 4, label: 'Postpartum', sub: 'After birth' },
+            ].map((stage) => (
+              <button
+                key={stage.id}
+                className="relative z-10 flex flex-col items-center gap-2 group"
+              >
+                <div className="w-12 h-12 rounded-full bg-white border-2 border-blush-200 flex items-center justify-center text-blush-600 font-bold shadow-sm group-hover:border-blush-400 transition-colors">
+                  {stage.id}
+                </div>
+                <span className="text-sm font-semibold text-charcoal">{stage.label}</span>
+                <span className="text-xs text-charcoal-light">{stage.sub}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="md:hidden flex flex-col gap-4 mb-8 relative">
+            {[
+              { id: 1, label: '1st Trimester', sub: 'Weeks 1-12' },
+              { id: 2, label: '2nd Trimester', sub: 'Weeks 13-27' },
+              { id: 3, label: '3rd Trimester', sub: 'Weeks 28-40' },
+              { id: 4, label: 'Postpartum', sub: 'After birth' },
+            ].map((stage) => (
+              <div key={stage.id} className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-blush-50 border-2 border-blush-200 flex items-center justify-center text-blush-600 font-bold shrink-0">
+                  {stage.id}
+                </div>
+                <div>
+                  <p className="font-semibold text-charcoal">{stage.label}</p>
+                  <p className="text-xs text-charcoal-light">{stage.sub}</p>
+                </div>
+                <div className="ml-auto w-2 h-2 rounded-full bg-blush-300" />
+              </div>
+            ))}
+            <div className="absolute left-6 top-12 bottom-12 w-0.5 bg-blush-200" />
+          </div>
+
+          <div className="bg-blush-50 rounded-3xl p-6 sm:p-8 border border-blush-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: '1st Trimester',
+                  weeks: 'Weeks 1-12',
+                  happening: 'The placenta forms and the baby\'s organs begin to develop.',
+                  checkups: 'First prenatal visit, blood tests, ultrasound.',
+                  nutrition: 'Folic acid, iron, calcium, and hydration.',
+                  changes: 'Morning sickness, fatigue, breast tenderness.',
+                  discuss: 'Medications, prenatal vitamins, genetic screening.',
+                },
+                {
+                  title: '2nd Trimester',
+                  weeks: 'Weeks 13-27',
+                  happening: 'Baby grows stronger; you may start feeling movements.',
+                  checkups: 'Anatomy scan, glucose screening, blood pressure checks.',
+                  nutrition: 'Increased protein, omega-3s, fiber, and water.',
+                  changes: 'Growing belly, energy boost, possible back pain.',
+                  discuss: 'Birth plan options, cord blood banking, activity level.',
+                },
+                {
+                  title: '3rd Trimester',
+                  weeks: 'Weeks 28-40',
+                  happening: 'Baby gains weight and prepares for birth; lungs mature.',
+                  checkups: 'Weekly checkups, non-stress tests, Group B Strep test.',
+                  nutrition: 'Small frequent meals, iron-rich foods, limit caffeine.',
+                  changes: 'Shortness of breath, swelling, Braxton Hicks contractions.',
+                  discuss: 'Labor signs, epidural options, breastfeeding plans.',
+                },
+                {
+                  title: 'Postpartum',
+                  weeks: 'After birth',
+                  happening: 'Your body recovers and adjusts to life with your newborn.',
+                  checkups: '6-week postpartum checkup, mental health screening.',
+                  nutrition: 'Iron-rich foods, hydration, balanced meals for recovery.',
+                  changes: 'Healing from delivery, hormonal shifts, sleep changes.',
+                  discuss: 'Contraception, postpartum depression, physical recovery.',
+                },
+              ].map((stage) => (
+                <div key={stage.title} className="bg-white rounded-2xl p-5 shadow-sm border border-blush-100 hover:shadow-md transition-shadow">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-bold text-charcoal">{stage.title}</h3>
+                    <p className="text-xs text-blush-600 font-medium">{stage.weeks}</p>
+                  </div>
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <p className="font-semibold text-charcoal mb-1">What is happening</p>
+                      <p className="text-charcoal-light">{stage.happening}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-charcoal mb-1">Important checkups</p>
+                      <p className="text-charcoal-light">{stage.checkups}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-charcoal mb-1">Nutrition</p>
+                      <p className="text-charcoal-light">{stage.nutrition}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-charcoal mb-1">Common changes</p>
+                      <p className="text-charcoal-light">{stage.changes}</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-charcoal mb-1">Discuss with your doctor</p>
+                      <p className="text-charcoal-light">{stage.discuss}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
