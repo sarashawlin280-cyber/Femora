@@ -7,7 +7,6 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/AdminDashboard'
-import Articles from './pages/Articles'
 import Feedback from './pages/Feedback'
 import Emergency from './pages/Emergency'
 import Search from './pages/Search'
@@ -42,7 +41,6 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/articles" element={<Articles />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/emergency" element={<Emergency />} />
           <Route path="/search" element={<Search />} />

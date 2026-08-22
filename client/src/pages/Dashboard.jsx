@@ -10,11 +10,11 @@ export default function Dashboard() {
   }
 
   const cards = [
-    { icon: Calendar, title: 'My Cycle', desc: 'Track your menstrual cycle and get insights', link: '/dashboard' },
-    { icon: Activity, title: 'Mental Wellness', desc: 'Resources for emotional health and self-care', link: '/articles' },
-    { icon: Baby, title: 'Pregnancy & Maternal Care', desc: 'Guidance for every stage of pregnancy', link: '/articles' },
-    { icon: Heart, title: 'Nutrition & Fitness', desc: 'Diet plans and workout routines for women', link: '/articles' },
-    { icon: BookOpen, title: 'Saved Articles', desc: 'Your bookmarked health resources', link: '/articles' },
+    { icon: Calendar, title: 'My Cycle', desc: 'Track your menstrual cycle and get insights', link: '/cycle-tracker' },
+    { icon: Activity, title: 'Mental Wellness', desc: 'Resources for emotional health and self-care', link: '/mental-wellness' },
+    { icon: Baby, title: 'Pregnancy & Maternal Care', desc: 'Guidance for every stage of pregnancy', link: '/maternal-care' },
+    { icon: Heart, title: 'Nutrition & Fitness', desc: 'Diet plans and workout routines for women', link: '/nutrition-fitness' },
+    { icon: BookOpen, title: 'Saved Resources', desc: 'Your bookmarked health resources', link: '/faq' },
     { icon: User, title: 'My Profile', desc: 'Manage your account settings', link: '/dashboard' },
   ]
 

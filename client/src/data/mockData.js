@@ -98,28 +98,28 @@ export const healthCategories = [
     title: 'Menstrual Health',
     description: 'Learn about your cycle, hormones, and menstrual wellness.',
     icon: 'HeartPulse',
-    link: '/articles',
+    link: '/menstrual-health',
   },
   {
     id: 2,
     title: 'Pregnancy & Maternal Care',
     description: 'Expert guidance for every stage of your pregnancy journey.',
     icon: 'Baby',
-    link: '/articles',
+    link: '/maternal-care',
   },
   {
     id: 3,
     title: 'Mental Wellness',
     description: 'Resources for emotional health, stress relief, and self-care.',
     icon: 'Brain',
-    link: '/articles',
+    link: '/mental-wellness',
   },
   {
     id: 4,
     title: 'Nutrition & Fitness',
     description: 'Diet plans and workout routines designed for women.',
     icon: 'Apple',
-    link: '/articles',
+    link: '/nutrition-fitness',
   },
 ]
 

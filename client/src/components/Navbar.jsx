@@ -19,7 +19,6 @@ export default function Navbar() {
     { name: 'Mental Wellness', path: '/mental-wellness' },
     { name: 'Nutrition & Fitness', path: '/nutrition-fitness' },
     { name: 'Cycle Tracker', path: '/cycle-tracker' },
-    { name: 'Articles', path: '/articles' },
     { name: 'FAQ', path: '/faq' },
   ]
 

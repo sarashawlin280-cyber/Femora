@@ -86,9 +86,9 @@ export default function AdminDashboard() {
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-blush-100">
             <h3 className="text-lg font-semibold text-charcoal mb-4">Manage Content</h3>
             <div className="space-y-3">
-              <Link to="/articles" className="flex items-center gap-3 px-4 py-3 bg-blush-50 rounded-xl hover:bg-blush-100 transition-colors">
+              <Link to="/faq" className="flex items-center gap-3 px-4 py-3 bg-blush-50 rounded-xl hover:bg-blush-100 transition-colors">
                 <FileText className="w-5 h-5 text-blush-600" />
-                <span className="text-sm font-medium text-charcoal">Articles</span>
+                <span className="text-sm font-medium text-charcoal">FAQs</span>
               </Link>
               <button className="w-full flex items-center gap-3 px-4 py-3 bg-blush-50 rounded-xl hover:bg-blush-100 transition-colors text-left">
                 <MessageSquare className="w-5 h-5 text-blush-600" />

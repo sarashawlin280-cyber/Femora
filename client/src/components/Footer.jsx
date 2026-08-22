@@ -29,7 +29,6 @@ export default function Footer() {
               <li><Link to="/maternal-care" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Pregnancy & Maternal Care</Link></li>
               <li><Link to="/mental-wellness" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Mental Wellness</Link></li>
               <li><Link to="/nutrition-fitness" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Nutrition & Fitness</Link></li>
-              <li><Link to="/articles" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">Articles</Link></li>
               <li><Link to="/faq" className="text-sm text-charcoal-light hover:text-blush-600 transition-colors">FAQ</Link></li>
             </ul>
           </div>
