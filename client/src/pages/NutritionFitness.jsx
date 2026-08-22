@@ -79,7 +79,6 @@ export default function NutritionFitness() {
           ))}
         </div>
 
-<<<<<<< Updated upstream
         <section>
           <div className="flex items-center gap-3 mb-8">
             <Salad className="w-8 h-8 text-blush-600" />
@@ -119,9 +118,6 @@ export default function NutritionFitness() {
             ))}
           </div>
         </section>
-
-=======
->>>>>>> Stashed changes
       </div>
     </div>
   )
