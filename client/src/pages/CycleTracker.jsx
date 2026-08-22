@@ -21,7 +21,7 @@ function getCycleDay(periodStart, targetDate) {
   return diff >= 0 ? diff + 1 : null
 }
 
-function getPeriodDays(periodStart, cycleLength) {
+function getPeriodDays(periodStart) {
   const days = []
   for (let i = 0; i < 5; i++) {
     days.push(addDays(periodStart, i))
@@ -29,7 +29,7 @@ function getPeriodDays(periodStart, cycleLength) {
   return days
 }
 
-function getFertileWindow(periodStart, cycleLength) {
+function getFertileWindow(periodStart) {
   const days = []
   for (let i = 8; i <= 15; i++) {
     days.push(addDays(periodStart, i))
@@ -37,7 +37,7 @@ function getFertileWindow(periodStart, cycleLength) {
   return days
 }
 
-function getOvulationDay(periodStart, cycleLength) {
+function getOvulationDay(periodStart) {
   return addDays(periodStart, 13)
 }
 
@@ -86,7 +86,6 @@ export default function CycleTracker() {
 
   const getDayClass = (date) => {
     if (!date) return 'invisible'
-    const cd = getCycleDay(periodStart, date)
     if (periodDays.some(d => isSameDay(d, date))) return 'bg-blush-400 text-white'
     if (isSameDay(date, ovulationDay)) return 'bg-lavender-400 text-white'
     if (fertileWindow.some(d => isSameDay(d, date))) return 'bg-lavender-100 text-lavender-700'
