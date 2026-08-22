@@ -52,60 +52,44 @@ export const articles = [
 export const faqs = [
   {
     id: 1,
-    category: 'Menstrual Health',
     question: 'What is a normal menstrual cycle?',
     answer: 'A normal menstrual cycle lasts between 21 and 35 days, with the average being 28 days. The bleeding phase typically lasts 2-7 days.',
   },
   {
     id: 2,
-    category: 'Menstrual Health',
     question: 'How can I track my ovulation?',
     answer: 'You can track ovulation through calendar methods, basal body temperature tracking, cervical mucus observation, or ovulation predictor kits.',
   },
   {
     id: 3,
-    category: 'Pregnancy',
     question: 'What are common signs of pregnancy?',
     answer: 'Common early signs include missed periods, nausea, breast tenderness, fatigue, and increased urination. A pregnancy test is the most reliable confirmation.',
   },
   {
     id: 4,
-    category: 'General Health',
     question: 'How much water should I drink daily?',
     answer: 'Women should aim for about 2.7 liters (91 ounces) of total water intake per day from all beverages and foods.',
   },
   {
     id: 5,
-    category: 'Pregnancy',
     question: 'What exercises are safe during pregnancy?',
     answer: 'Walking, swimming, stationary cycling, and prenatal yoga are generally safe. Always consult your healthcare provider before starting any new exercise routine.',
   },
   {
     id: 6,
-    category: 'Menstrual Health',
     question: 'How can I manage PMS symptoms naturally?',
     answer: 'Regular exercise, a balanced diet rich in calcium and magnesium, stress management techniques, and adequate sleep can help reduce PMS symptoms.',
   },
   {
     id: 7,
-    category: 'Menstrual Health',
     question: 'When should I see a gynecologist?',
     answer: 'Women should visit a gynecologist annually for routine check-ups, and immediately if experiencing unusual symptoms like irregular bleeding, severe pain, or abnormal discharge.',
   },
   {
     id: 8,
-    category: 'Mental Wellness',
     question: 'What are the benefits of mental health counseling?',
     answer: 'Counseling can help manage stress, anxiety, and depression, improve relationships, develop coping strategies, and enhance overall quality of life.',
   },
-]
-
-export const FAQ_CATEGORIES = [
-  { name: 'All', icon: null },
-  { name: 'Menstrual Health', icon: 'HeartPulse', color: 'bg-blush-100 text-blush-700' },
-  { name: 'Pregnancy', icon: 'Baby', color: 'bg-lavender-100 text-lavender-700' },
-  { name: 'Mental Wellness', icon: 'Brain', color: 'bg-peach-100 text-peach-700' },
-  { name: 'General Health', icon: 'Apple', color: 'bg-emerald-100 text-emerald-700' },
 ]
 
 export const healthCategories = [

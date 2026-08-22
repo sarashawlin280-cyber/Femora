@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import { Apple, ArrowRight, Dumbbell, Salad, Sparkles } from 'lucide-react'
+import { Apple, Dumbbell, Salad } from 'lucide-react'
 
 const DIET_PLAN = [
   { meal: 'Breakfast', time: '7:00 AM', items: 'Oatmeal with berries, Greek yogurt, and almonds' },
@@ -11,12 +10,12 @@ const DIET_PLAN = [
 ]
 
 const EXERCISES = [
-  { name: 'Sun Salutation', type: 'Yoga', benefit: 'Improves flexibility, strengthens muscles, and boosts circulation.', duration: '10 min' },
-  { name: 'Cat-Cow Stretch', type: 'Yoga', benefit: 'Relieves back tension and improves spinal flexibility.', duration: '5 min' },
-  { name: 'Deep Breathing', type: 'Yoga', benefit: 'Reduces stress, calms the mind, and improves oxygen flow.', duration: '5 min' },
-  { name: 'Brisk Walking', type: 'Cardio', benefit: 'Strengthens heart, improves mood, and aids weight management.', duration: '30 min' },
-  { name: 'Bodyweight Squats', type: 'Strength', benefit: 'Strengthens legs, glutes, and core muscles.', duration: '10 min' },
-  { name: 'Plank Hold', type: 'Strength', benefit: 'Builds core stability and improves posture.', duration: '5 min' },
+  { name: 'Sun Salutation', desc: 'Improves flexibility, strengthens muscles, and boosts circulation.' },
+  { name: 'Cat-Cow Stretch', desc: 'Relieves back tension and improves spinal flexibility.' },
+  { name: 'Deep Breathing', desc: 'Reduces stress, calms the mind, and improves oxygen flow.' },
+  { name: 'Brisk Walking', desc: 'Strengthens heart, improves mood, and aids weight management.' },
+  { name: 'Bodyweight Squats', desc: 'Strengthens legs, glutes, and core muscles.' },
+  { name: 'Plank Hold', desc: 'Builds core stability and improves posture.' },
 ]
 
 export default function NutritionFitness() {
@@ -113,25 +112,13 @@ export default function NutritionFitness() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {EXERCISES.map((ex, i) => (
               <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-blush-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-charcoal">{ex.name}</h3>
-                  <span className="text-xs font-medium bg-blush-100 text-blush-700 px-2 py-1 rounded-full">{ex.type}</span>
-                </div>
-                <p className="text-sm text-charcoal-light mb-4">{ex.benefit}</p>
-                <div className="flex items-center gap-1 text-xs text-charcoal-light">
-                  <Sparkles className="w-3 h-3 text-blush-500" />
-                  <span>{ex.duration}</span>
-                </div>
+                <h3 className="text-lg font-semibold text-charcoal mb-2">{ex.name}</h3>
+                <p className="text-sm text-charcoal-light">{ex.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <div className="text-center">
-          <Link to="/articles" className="inline-flex items-center gap-2 px-6 py-3 bg-blush-600 text-white rounded-xl font-medium hover:bg-blush-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-            View Tips & Articles <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
       </div>
     </div>
   )
