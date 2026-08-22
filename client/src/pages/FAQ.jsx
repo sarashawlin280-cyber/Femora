@@ -1,9 +1,16 @@
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Search } from 'lucide-react'
 import { faqs } from '../data/mockData'
 
 export default function FAQ() {
   const [openFaq, setOpenFaq] = useState(null)
+  const [query, setQuery] = useState('')
+
+  const filtered = faqs.filter((faq) => {
+    const q = query.trim().toLowerCase()
+    if (!q) return true
+    return faq.question.toLowerCase().includes(q) || faq.answer.toLowerCase().includes(q)
+  })
 
   return (
     <div className="min-h-screen bg-white">
@@ -21,8 +28,22 @@ export default function FAQ() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="relative mb-8">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blush-400" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Type your question..."
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-blush-200 focus:outline-none focus:ring-2 focus:ring-blush-500 bg-white"
+          />
+        </div>
+
         <div className="space-y-4">
-          {faqs.map((faq) => (
+          {filtered.length === 0 && (
+            <p className="text-center text-charcoal-light py-8">No matching questions found.</p>
+          )}
+          {filtered.map((faq) => (
             <div
               key={faq.id}
               className="bg-blush-50 rounded-2xl overflow-hidden shadow-sm"
